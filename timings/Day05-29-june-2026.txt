@@ -1,0 +1,5 @@
+Day 5 Summary & Next Steps
+🌿 Today's Session: Git & Version Control (3 Hours)
+Collaboration Workflows: Explored how developers and engineering teams collaborate efficiently on a shared codebase.
+
+Codebase Management: Learned best practices for tracking changes, resolving modifications, and maintaining a clean, scalable code repository.
