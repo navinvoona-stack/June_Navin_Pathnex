@@ -1,0 +1,8 @@
+Today's Session: Advanced Linux & Project Concepts
+Process Management: Learned how to identify and terminate active processes using both the Process ID (PID) and Process Name.
+
+File & Log Auditing: Mastered techniques to locate and differentiate between recent files and older system/application logs.
+
+Text Processing: Explored string searching patterns, focusing on the core differences between grep and egrep (Extended GREP).
+
+Project Methodologies: Learned to distinguish between Greenfield (starting from scratch) and Brownfield (working with existing infrastructure) deployment projects.
