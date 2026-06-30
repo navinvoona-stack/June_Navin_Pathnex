@@ -1,0 +1,332 @@
+# AWS Session 3 & 4 – Storage, Monitoring, Security, and Serverless Services
+
+## Amazon EBS (Elastic Block Store)
+
+Amazon EBS is a block storage service that functions similarly to a traditional hard drive. It is typically attached to a single EC2 instance and is Availability Zone (AZ) specific.
+
+### Key Features
+
+* Persistent storage that exists independently of EC2 instances.
+* Can be detached from one EC2 instance and attached to another within the same AZ.
+* Does not automatically scale.
+* Suitable for operating systems, databases, and application storage.
+
+### EBS Volume Types
+
+* **gp3** – General Purpose SSD (default option for most workloads).
+* **io2** – High IOPS SSD designed for mission-critical databases such as Oracle and Amazon RDS.
+* **st1** – Throughput-optimized HDD for big data, Kafka, and sequential workloads.
+* **sc1** – Cold HDD offering the lowest cost for infrequently accessed data.
+
+---
+
+## Amazon EFS (Elastic File System)
+
+Amazon EFS is AWS's managed Network File System (NFS) service.
+
+### Key Features
+
+* Multiple EC2 instances can mount and access the same file system simultaneously.
+* Regional service that spans multiple Availability Zones.
+* Automatically scales storage capacity as data grows.
+* Pay only for the storage consumed.
+* Ideal for shared file storage and distributed applications.
+
+---
+
+## Amazon S3 (Simple Storage Service)
+
+Amazon S3 is AWS's highly durable and scalable object storage service.
+
+### Key Features
+
+* Buckets are created within a specific AWS region.
+* Bucket names are globally unique across AWS.
+* Accessed through APIs, SDKs, or URLs rather than being directly attached to EC2 instances.
+* Supports lifecycle policies for automatic transition between storage classes.
+* Provides object versioning for data protection and recovery.
+* Supports Cross-Region Replication (CRR) and Same-Region Replication (SRR).
+* Integrates seamlessly with services such as Lambda, CloudFront, and EventBridge.
+
+---
+
+# AWS Systems Manager Session Manager
+
+AWS Session Manager provides secure access to EC2 instances without requiring SSH keys or opening inbound ports.
+
+### Benefits
+
+* Browser-based and CLI access to EC2 instances.
+* Works with both public and private instances.
+* No public IP address required.
+* Provides centralized logging and auditing of access sessions.
+* Enhances security by eliminating direct SSH access.
+
+---
+
+# Amazon Route 53
+
+Amazon Route 53 is AWS's scalable Domain Name System (DNS) service.
+
+### Features
+
+* DNS management and domain registration.
+* Health checks and traffic monitoring.
+* High availability and fault tolerance.
+
+### Common DNS Record Types
+
+* **A Record** – Maps a domain name to an IPv4 address.
+* **AAAA Record** – Maps a domain name to an IPv6 address.
+* **CNAME Record** – Maps one domain name to another domain name.
+* **ALIAS Record** – Maps a domain to AWS resources such as ALB, CloudFront, or S3.
+* **MX Record** – Mail server configuration.
+* **NS Record** – Defines authoritative name servers.
+
+### Hosted Zones
+
+* **Public Hosted Zone** – Handles DNS queries from the internet.
+* **Private Hosted Zone** – Handles DNS queries within a VPC.
+
+### Routing Policies
+
+* **Simple Routing** – Single resource mapping.
+* **Weighted Routing** – Distributes traffic by percentage.
+* **Latency-Based Routing** – Routes traffic to the lowest latency endpoint.
+* **Failover Routing** – Supports disaster recovery and fault tolerance.
+* **Geolocation Routing** – Routes traffic based on user location.
+* **Geoproximity Routing** – Routes based on geographic location and resource proximity.
+* **IP-Based Routing** – Routes traffic according to source IP or CIDR ranges.
+
+---
+
+# AWS CloudTrail
+
+AWS CloudTrail records all API calls and account activity across AWS services.
+
+### Key Features
+
+* Tracks user and service actions.
+* Supports governance, compliance, auditing, and security investigations.
+* Captures who performed an action, when it occurred, and from where.
+* Stores logs in Amazon S3 for long-term retention and analysis.
+
+---
+
+# Amazon CloudWatch
+
+Amazon CloudWatch is AWS's monitoring and observability platform.
+
+### Features
+
+* Collects metrics, logs, and events from AWS resources.
+* Enables alerting and automated responses.
+* Provides centralized monitoring across services.
+
+### Components
+
+#### Metrics
+
+* Monitors resource performance such as CPU, network, and disk usage.
+* Memory metrics require the CloudWatch Agent to be installed.
+
+#### Logs
+
+* Centralized logging for EC2, Lambda, ECS, and other AWS services.
+
+#### Alarms
+
+* Monitors metrics against defined thresholds.
+* Can trigger notifications or automated actions.
+
+#### EventBridge
+
+* Responds to AWS events and scheduled tasks.
+* Functions similarly to a cron scheduler for cloud environments.
+
+---
+
+# Auto Scaling and Auto Scaling Groups (ASG)
+
+Auto Scaling automatically adds or removes EC2 instances based on workload demand.
+
+### Core Components
+
+#### Launch Template
+
+Defines what EC2 instances should be launched:
+
+* AMI
+* Instance Type
+* Security Groups
+* IAM Role
+* User Data Scripts
+
+#### Auto Scaling Group (ASG)
+
+Defines:
+
+* Minimum capacity
+* Maximum capacity
+* Desired capacity
+* Availability Zones
+* Launch Template to use
+
+#### Scaling Policies
+
+Define when scaling should occur based on metrics such as CPU utilization, request count, or custom metrics.
+
+### Common Architecture
+
+Auto Scaling Groups are commonly paired with an Application Load Balancer (ALB) to distribute traffic across multiple instances.
+
+---
+
+# AWS Lambda
+
+AWS Lambda is a serverless compute service that allows code execution without managing servers.
+
+### Key Features
+
+* No server provisioning or maintenance required.
+* Maximum execution duration of 15 minutes.
+* Supports Python, Node.js, Java, Go, Ruby, and .NET.
+* Triggered by AWS services, APIs, schedules, or events.
+* Uses IAM roles to control permissions.
+* CPU allocation automatically scales with memory allocation.
+
+### Common Use Cases
+
+* Image processing after S3 uploads.
+* Scheduled cleanup and maintenance jobs.
+* Infrastructure automation.
+* Event-driven workflows.
+* CI/CD pipeline triggers.
+
+### Example
+
+S3 Upload → Lambda Trigger → Resize Image → Store Processed File
+
+---
+
+# Amazon API Gateway
+
+Amazon API Gateway is a fully managed service that creates, publishes, secures, and monitors APIs.
+
+### Features
+
+* Acts as the entry point for backend services.
+* Frequently integrated with Lambda functions.
+* Supports REST APIs, HTTP APIs, and WebSocket APIs.
+* Handles authentication, authorization, throttling, and monitoring.
+
+---
+
+# AWS Shield
+
+AWS Shield is AWS's managed Distributed Denial of Service (DDoS) protection service.
+
+### DDoS Attacks
+
+Examples include:
+
+* SYN Floods
+* UDP Floods
+* HTTP GET/POST Floods
+* Large-scale packet flooding attacks
+
+### Shield Features
+
+* Automatically filters Layer 3 and Layer 4 attacks at the AWS network edge.
+* **Shield Standard** is included by default.
+* **Shield Advanced** provides enhanced protection and advanced reporting.
+
+---
+
+# AWS WAF (Web Application Firewall)
+
+AWS WAF protects web applications by filtering and monitoring HTTP and HTTPS traffic at Layer 7.
+
+### How It Works
+
+#### Web ACL
+
+A container that holds security rules and is attached to:
+
+* Application Load Balancers
+* CloudFront Distributions
+* API Gateway
+
+#### Rules
+
+Define conditions for:
+
+* Allow
+* Block
+* Count
+
+#### Rule Groups
+
+Reusable collections of rules that can be applied across multiple applications.
+
+### Common Protections
+
+* SQL Injection (SQLi)
+* Cross-Site Scripting (XSS)
+* IP Reputation Filtering
+* Rate Limiting
+* Bot Protection
+
+---
+
+# Amazon GuardDuty
+
+Amazon GuardDuty is AWS's intelligent threat detection service.
+
+### Key Features
+
+* Continuously monitors AWS accounts and workloads.
+* Detects suspicious and malicious activity.
+* Requires no agents or complex setup.
+* Generates findings with severity levels.
+* Integrates with AWS security services.
+
+### Examples
+
+* Unauthorized API calls.
+* Cryptocurrency mining activity.
+* Credential compromise.
+* Suspicious network traffic.
+
+**GuardDuty detects and alerts but does not automatically block threats.**
+
+---
+
+# Amazon Inspector
+
+Amazon Inspector is AWS's automated vulnerability assessment service.
+
+### Key Features
+
+* Continuously scans:
+
+  * EC2 instances
+  * Lambda functions
+  * Container images
+* Identifies software vulnerabilities and unintended network exposure.
+* Automatically discovers resources and performs ongoing assessments.
+* Generates risk-based findings and prioritizes vulnerabilities.
+
+### Inspector vs GuardDuty
+
+| Amazon Inspector                                   | Amazon GuardDuty                               |
+| -------------------------------------------------- | ---------------------------------------------- |
+| Identifies vulnerabilities and security weaknesses | Detects active threats and suspicious activity |
+| Focuses on preventive security                     | Focuses on threat detection                    |
+| Highlights potential risks                         | Highlights ongoing attacks                     |
+| Produces risk-based findings                       | Produces severity-based findings               |
+
+**Inspector Finding:** Potential vulnerability that could be exploited.
+
+**GuardDuty Finding:** Suspicious or malicious activity currently occurring.
+
