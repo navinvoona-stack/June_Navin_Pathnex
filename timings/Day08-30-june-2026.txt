@@ -1,0 +1,235 @@
+**Today's learning continued with additional AWS services and networking concepts.**
+
+### Amazon VPC (Virtual Private Cloud)
+
+A VPC is a logically isolated virtual network within AWS where we deploy and manage our cloud resources. It allows us to define IP address ranges, subnets, routing, and security controls.
+
+* **Subnet:** A subnet is a segment of a VPC associated with a single Availability Zone (AZ).
+
+  * **Public Subnet:** Resources have internet-facing IP addresses.
+  * **Private Subnet:** Resources are accessible only within the internal network.
+
+* **Internet Gateway (IGW):** Enables communication between resources in a VPC and the internet.
+
+* **Route Table:** Defines how network traffic is directed within the VPC. Public subnets typically route internet-bound traffic through an IGW, while private subnets use a NAT Gateway.
+
+* **NAT Gateway:** Allows resources in private subnets to initiate outbound internet connections while preventing inbound internet access.
+
+* **Security Groups (SG):** Instance-level firewalls that allow only specified inbound and outbound traffic. Return traffic is automatically allowed.
+
+* **Network ACLs (NACL):** Subnet-level firewalls that support both allow and deny rules.
+
+* **VPC Peering:** Provides private connectivity between two VPCs through a one-to-one relationship.
+
+* **Transit Gateway:** Acts as a central networking hub to connect multiple VPCs and on-premises networks.
+
+### AWS Key Management Service (KMS)
+
+AWS KMS is a managed encryption key service used to secure data at rest across AWS services.
+
+Key features:
+
+* Supports symmetric and asymmetric keys.
+* Integrates with services such as S3, RDS, and EBS.
+* Supports automatic key rotation.
+* Provides fine-grained access control.
+* Audits key usage through AWS CloudTrail.
+
+### AWS Systems Manager (SSM)
+
+A centralized management service for AWS and on-premises servers that eliminates the need for SSH access.
+
+Key components:
+
+* **Parameter Store:** Stores configuration data and secrets as key-value pairs.
+* **Patch Manager:** Automates operating system patching.
+* **Run Command:** Executes commands across multiple servers remotely.
+* **Inventory:** Collects and maintains metadata about managed instances.
+
+### Amazon RDS (Relational Database Service)
+
+A managed relational database service where AWS handles provisioning, patching, backups, and replication.
+
+Supported engines:
+
+* MySQL
+* PostgreSQL
+* MariaDB
+* Oracle
+* SQL Server
+* Amazon Aurora
+
+Features:
+
+* Multi-AZ deployments
+* Read Replicas
+* Automated backups
+
+RDS databases are typically deployed in private subnets with Security Groups controlling access.
+
+### Amazon Aurora
+
+Aurora is AWS's cloud-native relational database that is compatible with MySQL and PostgreSQL.
+
+Benefits:
+
+* Higher performance than standard RDS engines.
+* Greater availability and fault tolerance.
+* Aurora Serverless automatically scales based on workload demands.
+
+### Amazon DynamoDB
+
+A fully managed NoSQL database service offering key-value and document storage with automatic scaling.
+
+Core concepts:
+
+* **Table:** Collection of items.
+* **Item:** Individual record (up to 400 KB).
+* **Attribute:** Data field within an item.
+* **Primary Key:**
+
+  * Partition Key
+  * Partition Key + Sort Key
+
+Provides single-digit millisecond latency at virtually any scale.
+
+### Amazon Redshift
+
+A fully managed data warehouse service designed for analytics and reporting workloads.
+
+**Mental Model:**
+
+* RDS = Operational database for applications.
+* Redshift = Analytical database for historical and large-scale reporting.
+
+Capable of processing petabyte-scale datasets using SQL queries.
+
+### AWS Database Migration Service (DMS)
+
+A managed service that migrates databases with minimal downtime.
+
+Migration flow:
+Source Database → DMS Replication Instance → Target Database
+
+Features:
+
+* Continuous data replication.
+* Source database remains online during migration.
+* Supports homogeneous and heterogeneous migrations.
+
+Examples:
+
+* MySQL → MySQL
+* MySQL → PostgreSQL
+
+### AWS Batch
+
+A managed service for running large-scale batch processing jobs.
+
+Benefits:
+
+* Automatically provisions compute resources.
+* Scales based on workload.
+* No infrastructure management required.
+
+**Mental Model:**
+
+* Lambda = Short-running tasks (up to 15 minutes)
+* AWS Batch = Long-running compute-intensive workloads
+
+### AWS Glue
+
+A serverless ETL (Extract, Transform, Load) service.
+
+Components:
+
+* **ETL Jobs:** Data transformation logic written in Python or Scala.
+* **Glue Crawlers:** Automatically discover schemas from data sources.
+* **Glue Data Catalog:** Centralized metadata repository.
+
+Common use case:
+Transform data from S3, RDS, or DynamoDB and load it into Redshift or S3 for analytics.
+
+### Amazon EFS (Elastic File System)
+
+A managed Network File System (NFS) that can be mounted simultaneously across multiple Linux EC2 instances.
+
+Characteristics:
+
+* Auto-scaling storage.
+* Regional service (not tied to a single AZ).
+* Linux-only support.
+* Ideal for shared file storage.
+
+### AWS Elastic Beanstalk
+
+A Platform-as-a-Service (PaaS) offering that simplifies application deployment and management.
+
+Features:
+
+* Supports Java, Python, Node.js, and more.
+* Handles provisioning, scaling, monitoring, and deployment.
+* Integrates with RDS, S3, SNS, and other AWS services.
+* Allows application-level customization.
+
+### Amazon CloudFront
+
+AWS's Content Delivery Network (CDN) service.
+
+Benefits:
+
+* Caches content at edge locations globally.
+* Reduces latency by serving content from locations nearest to users.
+* Supports both static and dynamic content delivery.
+
+### AWS Snow Family
+
+Used for transferring large volumes of data when network-based transfers are impractical.
+
+Services:
+
+* **Snowball Edge Storage Optimized:** Up to 80 TB for data migration.
+* **Snowball Edge Compute Optimized:** Includes compute capabilities for edge processing.
+* **Snowmobile:** Exabyte-scale data transfer using a secure shipping container.
+
+### AWS CodePipeline, CodeBuild, and CodeDeploy
+
+**CodePipeline**
+
+* Orchestrates the complete CI/CD workflow.
+* Connects source, build, test, and deployment stages.
+
+**CodeBuild**
+
+* Managed build service.
+* Compiles code, runs tests, and generates artifacts.
+* Uses `buildspec.yml` for configuration.
+
+**CodeDeploy**
+
+* Automates deployments to EC2, ECS, Lambda, and on-premises servers.
+
+Deployment strategies:
+
+* Rolling Deployment
+* Blue/Green Deployment
+* Canary Deployment
+
+CI/CD Flow:
+GitHub → CodePipeline → CodeBuild → CodeDeploy → Production
+
+### AWS X-Ray
+
+AWS's distributed tracing service for monitoring and troubleshooting applications.
+
+How it works:
+User Request → Application Services → X-Ray Trace Collection → Service Map & Timeline
+
+Use Cases:
+
+* Microservices troubleshooting
+* Bottleneck identification
+* Error analysis
+* Latency monitoring (p95, p99)
+* End-to-end request tracing across distributed systems
+
