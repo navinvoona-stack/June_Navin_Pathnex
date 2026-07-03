@@ -1,0 +1,270 @@
+# Docker End-to-End Revision Notes
+
+## What is a Container?
+
+A container is a lightweight, immutable, and isolated runtime instance of an application. It packages the application along with all its required dependencies, libraries, and runtime components, ensuring consistent execution across different environments.
+
+---
+
+## Containers vs Virtual Machines (VMs)
+
+### Virtual Machines (VMs)
+
+* VMs use a **hypervisor** layer to virtualize hardware resources.
+* Each VM requires its own **guest operating system**.
+* The operating system and kernel are packaged within every VM.
+* VMs are comparatively heavy and consume more resources.
+* VM startup and provisioning take longer.
+
+### Containers
+
+* Containers share the **host operating system kernel**.
+* No dedicated guest operating system is required.
+* Only the application and its dependencies are packaged.
+* Containers are lightweight and resource-efficient.
+* Containers start and scale much faster than VMs.
+* There is no hypervisor layer; containers run as isolated processes directly on the host operating system.
+
+---
+
+# Core Components of Docker
+
+## Dockerfile
+
+A Dockerfile is a text-based blueprint used to define how a Docker image should be built.
+
+It contains:
+
+* Base image definition
+* Application source code copy instructions
+* Package installation commands
+* Environment variable configurations
+* Startup and execution commands
+* Other build-related instructions
+
+A Dockerfile describes the complete structure and requirements of an application.
+
+---
+
+## Docker Image
+
+A Docker image is a static, read-only, multi-layered snapshot created from a Dockerfile.
+
+Key characteristics:
+
+* Immutable (cannot be modified after creation)
+* Versioned for traceability and rollback
+* Serves as the template for creating containers
+
+### Build Commands
+
+Build from the current directory:
+
+```bash
+docker build -t node-app:v1 .
+```
+
+Build using a Dockerfile located elsewhere:
+
+```bash
+docker build -t node-app:v1 -f /home/mydir/Dockerfile .
+```
+
+Build when the Dockerfile and application source are in different locations:
+
+```bash
+docker build -t node-app:v1 \
+-f /absolute/path/to/Dockerfile \
+/absolute/path/to/app-files
+```
+
+**Important:** Any files referenced by `COPY` or `ADD` instructions must exist inside the specified build context directory (`/absolute/path/to/app-files`).
+
+---
+
+## Container
+
+A container is a running instance of a Docker image.
+
+### Run Commands
+
+Run a container with a randomly generated name:
+
+```bash
+docker run -d node-app:v1
+```
+
+Run a container with a custom name:
+
+```bash
+docker run -d --name my-run-app node-app:v1
+```
+
+---
+
+# Viewing Containers
+
+List running containers:
+
+```bash
+docker ps
+```
+
+List all containers (running and stopped):
+
+```bash
+docker ps -a
+```
+
+---
+
+# Port Mapping
+
+Port mapping allows external access to applications running inside containers.
+
+Map host port 8080 to container port 3000:
+
+```bash
+docker run -d -p 8080:3000 node-app:v1
+```
+
+Restrict access to localhost only:
+
+```bash
+docker run -d -p 127.0.0.1:8080:3000 node-app:v1
+```
+
+Assign a random host port to container port 3000:
+
+```bash
+docker run -d -p :3000 node-app:v1
+```
+
+---
+
+# Docker Networking
+
+## Bridge Network
+
+* Default Docker network type.
+* Creates a private internal network on the host.
+* Containers can communicate securely with each other.
+
+## Overlay Network
+
+* Used in Docker Swarm or multi-host environments.
+* Creates a virtual network spanning multiple servers.
+* Enables communication between containers running on different physical or virtual machines.
+
+## None Network
+
+* Disables all external networking.
+* The container only has the loopback interface (`127.0.0.1`).
+
+## Host Network
+
+* Removes network isolation between the host and container.
+* The container directly uses the host's network stack.
+* No port mapping is required.
+* Port conflicts occur if another application is already using the same port.
+
+---
+
+# Docker Storage
+
+## Volumes
+
+Docker-managed persistent storage.
+
+Default location:
+
+```bash
+/var/lib/docker/volumes
+```
+
+Benefits:
+
+* Persistent data storage
+* Independent of container lifecycle
+* Recommended for production workloads
+
+## Bind Mounts
+
+A direct mapping between a host machine directory and a container directory.
+
+Benefits:
+
+* Easy file sharing
+* Useful during development
+* Changes on the host are immediately visible inside the container
+
+---
+
+# Docker Cleanup Commands
+
+Remove one or more containers:
+
+```bash
+docker rm <container_id>
+```
+
+Force remove a container:
+
+```bash
+docker rm -f <container_id>
+```
+
+Remove an image:
+
+```bash
+docker rmi <image_id>
+```
+
+Remove a specific volume:
+
+```bash
+docker volume rm <volume_name>
+```
+
+Delete all stopped containers:
+
+```bash
+docker container prune
+```
+
+Delete dangling (unused) images:
+
+```bash
+docker image prune
+```
+
+Delete all unused images:
+
+```bash
+docker image prune -a
+```
+
+Delete all unused volumes:
+
+```bash
+docker volume prune
+```
+
+Perform complete Docker cleanup:
+
+```bash
+docker system prune
+```
+
+This removes:
+
+* Stopped containers
+* Unused networks
+* Dangling images
+
+To remove all unused images as well:
+
+```bash
+docker system prune -a
+```
+
