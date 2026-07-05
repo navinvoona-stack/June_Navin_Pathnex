@@ -1,0 +1,216 @@
+# Day 11: Kubernetes Session 1
+
+Today was the first day of my Kubernetes learning journey. The session focused on Kubernetes fundamentals, architecture, and core components.
+
+## 1. Kubernetes
+
+Kubernetes (K8s) is an open-source container orchestration platform used to automate the deployment, scaling, management, and operation of containerized applications. It helps organizations run applications reliably across clusters of machines.
+
+---
+
+# Kubernetes Architecture
+
+A Kubernetes cluster is broadly divided into two main sections:
+
+## Control Plane
+
+The Control Plane acts as the brain of the cluster. It manages the overall state of the cluster, makes scheduling decisions, and ensures that the desired state matches the actual state.
+
+## Data Plane (Worker Nodes)
+
+The Data Plane acts as the execution layer of the cluster. It runs application workloads and executes the instructions provided by the Control Plane.
+
+---
+
+# Core Kubernetes Components
+
+## 1. ETCD
+
+ETCD is the source of truth for the Kubernetes cluster.
+
+* Distributed key-value store
+* Stores cluster configuration and state information
+* Maintains the current status of all Kubernetes resources
+* Used by the Control Plane to retrieve and update cluster data
+
+---
+
+## 2. Kube Controller Manager
+
+The Kube Controller Manager manages all Kubernetes controllers.
+
+Responsibilities:
+
+* Continuously monitors cluster state
+* Ensures desired state matches actual state
+* Handles node, replication, endpoint, and other controllers
+* Automatically takes corrective actions when deviations occur
+
+---
+
+## 3. Kube API Server
+
+The Kube API Server is the entry point to the Kubernetes cluster.
+
+Responsibilities:
+
+* Receives all API requests
+* Processes kubectl commands
+* Validates and authenticates requests
+* Acts as the communication hub between Kubernetes components
+
+Every interaction with the Kubernetes cluster happens through the Kube API Server.
+
+---
+
+## 4. Kube Proxy
+
+Kube Proxy is responsible for networking within the cluster.
+
+Responsibilities:
+
+* Manages network routing rules
+* Maintains iptables or IPVS rules
+* Enables communication between services and pods
+* Handles service-based load balancing
+
+**Note:** DNS resolution is handled by the CoreDNS component, not Kube Proxy.
+
+---
+
+## 5. Kube Scheduler
+
+The Kube Scheduler decides where a pod should run.
+
+Responsibilities:
+
+* Monitors newly created pods
+* Evaluates resource requirements
+* Analyzes node availability
+* Selects the most suitable worker node for pod placement
+
+The scheduler only assigns pods to nodes; it does not start the containers.
+
+---
+
+## 6. Kubelet
+
+Kubelet is the primary agent running on every worker node.
+
+Responsibilities:
+
+* Receives instructions from the Control Plane
+* Interacts with the container runtime
+* Creates and manages pods
+* Monitors pod health
+* Reports node and pod status back to the Control Plane
+* Sends periodic heartbeats indicating node health
+
+---
+
+## 7. Container Runtime
+
+Common container runtimes:
+
+* containerd
+* CRI-O
+
+Responsibilities:
+
+* Pull container images from registries
+* Create and start containers
+* Manage container lifecycle
+* Execute workloads defined in pod specifications
+
+---
+
+# Kubernetes Workload Objects
+
+## Deployment
+
+A Deployment is a controller used to manage stateless applications.
+
+Features:
+
+* Creates and manages ReplicaSets
+* Provides scaling capabilities
+* Supports rolling updates and rollbacks
+* Ensures the required number of pods are running
+
+---
+
+## Pods
+
+A Pod is the smallest deployable unit in Kubernetes.
+
+Features:
+
+* Contains one or more containers
+* Containers within a pod share networking and storage
+* Represents a single instance of an application
+
+---
+
+## StatefulSet
+
+A StatefulSet is used for deploying stateful applications.
+
+Features:
+
+* Provides stable pod identities
+* Assigns a dedicated Persistent Volume Claim (PVC) to each pod
+* Maintains ordered pod creation and deletion
+* Pod names follow a sequential numbering pattern
+
+Examples:
+
+```text
+database-0
+database-1
+database-2
+database-3
+database-4
+```
+
+Deletion occurs in reverse order:
+
+```text
+database-4
+database-3
+database-2
+database-1
+database-0
+```
+
+Common use cases:
+
+* Databases
+* Kafka
+* Elasticsearch
+* Distributed systems requiring persistent storage
+
+---
+
+## DaemonSet
+
+A DaemonSet ensures that one pod runs on every worker node.
+
+Features:
+
+* Automatically deploys a pod to newly added nodes
+* Removes pods when nodes are removed
+* Commonly used for cluster-wide services
+
+Examples:
+
+* Log collection agents (Fluentd)
+* Monitoring agents (Prometheus Node Exporter)
+* Security agents
+* Networking components
+
+---
+
+# Next Session
+
+Tomorrow's session will continue with Kubernetes on AWS EKS (Elastic Kubernetes Service), focusing on cluster deployment and management in the AWS cloud environment.
+
