@@ -1,0 +1,238 @@
+Module 1: Ansible
+
+This module demonstrates how to use an Ansible playbook to create and manage a configuration file on multiple servers. The playbook ensures that the required file exists with the specified content. Since Ansible modules are idempotent, every execution checks whether the file is already present and whether its content matches the desired state. If the file is missing or the content has changed, Ansible updates it automatically. Otherwise, the playbook completes successfully without making any changes.
+
+Ansible Playbook
+---
+- name: Create and maintain application configuration file
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Deploy configuration file with predefined content
+      ansible.builtin.copy:
+        dest: /etc/pathnex.conf
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          Welcome to Pathnex DevOps Training.
+          This configuration file is managed by Ansible.
+          The playbook automatically verifies the file during every execution.
+          If the file is missing or its content differs,
+          Ansible updates it to match the expected configuration.
+Explanation
+The playbook targets all managed hosts in the inventory.
+It runs with elevated privileges using become: true because the file is created under /etc.
+The copy module creates the configuration file if it does not already exist.
+During every execution, Ansible compares the existing file with the expected content.
+If any difference is detected, the file is updated automatically.
+If the file already exists with the correct content, Ansible reports OK without making any modifications, demonstrating Ansible's idempotent behavior.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+# Module 2: Terraform
+
+This module demonstrates how to provision an Amazon RDS (Relational Database Service) instance on AWS using Terraform. The resource block defines the desired configuration of the database instance, including the storage size, database engine, instance type, database name, login credentials, and other deployment settings.
+
+Terraform follows the Infrastructure as Code (IaC) approach, where the configuration file describes the desired infrastructure state. During execution, Terraform compares the current infrastructure with the configuration and creates or updates the RDS instance only if changes are required.
+
+### Terraform Configuration
+
+```hcl
+resource "aws_db_instance" "pathnex_rds" {
+  allocated_storage      = 20
+  engine                 = "mysql"
+  engine_version         = "8.0"
+  instance_class         = "db.t3.micro"
+
+  db_name                = "pathnexdb"
+  username               = "dbadmin"
+  password               = "ChangeMe123!"
+
+  publicly_accessible    = false
+  skip_final_snapshot    = true
+}
+```
+
+### Explanation
+
+* `allocated_storage = 20` allocates **20 GB** of storage for the database.
+* `engine = "mysql"` specifies **MySQL** as the database engine.
+* `engine_version = "8.0"` deploys MySQL version **8.0**.
+* `instance_class = "db.t3.micro"` selects the RDS instance type.
+* `db_name` creates the initial database.
+* `username` and `password` define the master database credentials.
+* `publicly_accessible = false` keeps the database private within the VPC.
+* `skip_final_snapshot = true` skips creating a final backup snapshot when the database is deleted.
+
+When `terraform plan` and `terraform apply` are executed, Terraform validates the configuration and provisions the RDS instance in AWS. On subsequent runs, it checks the existing infrastructure against the configuration and applies only the necessary changes, ensuring consistent and repeatable deployments.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Module 3: Kubernetes
+
+This module demonstrates how to configure a **Rolling Update** deployment strategy in Kubernetes. A rolling update allows a new version of an application to be deployed gradually without causing downtime. Instead of replacing all pods simultaneously, Kubernetes updates them one at a time according to the strategy defined in the deployment.
+
+In this deployment:
+
+* The deployment maintains **3 replicas** of the application.
+* The update strategy is set to **RollingUpdate**.
+* `maxUnavailable: 1` ensures that only **one pod** can be unavailable during the upgrade process. This guarantees that at least **two pods remain available** to serve user requests while the update is in progress.
+* `maxSurge: 1` allows Kubernetes to create **one additional pod** with the new application version during the update. This helps maintain application availability while old pods are being replaced.
+
+### Kubernetes Deployment
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pathnex-rolling
+spec:
+  replicas: 3
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  selector:
+    matchLabels:
+      app: roll
+
+  template:
+    metadata:
+      labels:
+        app: roll
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27
+          ports:
+            - containerPort: 80
+```
+
+### Explanation
+
+* `replicas: 3` ensures that three pod instances are running at all times.
+* `strategy.type: RollingUpdate` enables zero or minimal downtime deployments by replacing pods gradually.
+* `maxUnavailable: 1` allows only one pod to be taken offline during the update, ensuring the remaining two pods continue serving traffic.
+* `maxSurge: 1` permits Kubernetes to create one extra pod above the desired replica count during the rollout, reducing service disruption.
+* The deployment uses the **Nginx** container image, and Kubernetes automatically manages the rollout and replacement of pods.
+
+With this configuration, Kubernetes performs a controlled deployment by creating one new pod, verifying that it becomes healthy, and then terminating one old pod. This process repeats until all three pods are updated to the new version, providing a smooth, highly available, and reliable application upgrade.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Module 4: Shell Scripting
+
+This module demonstrates a simple Bash script that creates a compressed backup of a directory. The script archives the specified source directory into a .tar.gz file and stores it in the destination location. The backup filename automatically includes the current system date, making it easy to identify backups created on different days.
+
+Shell Script
+#!/bin/bash
+
+SOURCE_DIR="/var/log"
+BACKUP_FILE="/backup/pathnex-$(date +%F).tar.gz"
+
+tar -czf "$BACKUP_FILE" "$SOURCE_DIR"
+
+echo "Backup successfully created at: $BACKUP_FILE"
+Explanation
+SOURCE_DIR specifies the directory that needs to be backed up.
+BACKUP_FILE defines the destination path and generates a unique filename by appending the current date using $(date +%F), which produces the format YYYY-MM-DD.
+The command tar -czf creates a compressed archive:
+-c creates a new archive.
+-z compresses the archive using gzip.
+-f specifies the output filename.
+The contents of the source directory are compressed into a .tar.gz file and saved in the backup location.
+After the backup is completed, the script displays a confirmation message showing the location of the generated backup file.
+
+For example, if the script is executed on 2026-07-07, the backup file will be created as:
+
+/backup/pathnex-2026-07-07.tar.gz
+
+This naming convention helps maintain daily backups without overwriting previous backup files and makes it easier to organize and restore backups when needed.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Module 5: Jenkins
+
+This module demonstrates a simple Declarative Jenkins Pipeline used to automate the software build process. The pipeline defines the stages required to retrieve the source code from the configured source control repository and compile the application using Maven. It also shows how environment variables can be defined and made available throughout the pipeline.
+
+Jenkins Pipeline
+pipeline {
+    agent any
+
+    environment {
+        INSTITUTE_NAME = "Pathnex"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+    }
+}
+Explanation
+agent any instructs Jenkins to execute the pipeline on any available Jenkins agent.
+The environment block defines environment variables that are accessible in every stage of the pipeline. In this example, the variable INSTITUTE_NAME is assigned the value "Pathnex".
+The Checkout stage retrieves the latest source code from the Source Code Management (SCM) repository configured in the Jenkins job using checkout scm.
+The Build stage executes the command mvn clean compile, which:
+clean removes any previously generated build artifacts.
+compile compiles the application's source code and checks for compilation errors.
+If the build completes successfully, Jenkins marks the stage as successful. If the Maven command fails, the pipeline stops and reports the build as failed.
+
+This Jenkins pipeline forms the foundation of a CI/CD workflow. Additional stages such as Unit Testing, Code Quality Analysis, Docker Image Creation, Security Scanning, and Deployment can be added to automate the complete software delivery
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Module 6: GitLab CI/CD
+
+This module demonstrates how GitLab CI/CD can execute different jobs based on the branch that triggers the pipeline. Although both jobs belong to the same **build** stage, only one job is executed depending on the branch where the commit is made. This approach helps maintain branch-specific workflows while avoiding unnecessary pipeline executions.
+
+### GitLab CI/CD Pipeline
+
+```yaml id="m4x8k2"
+stages:
+  - build
+
+build-main:
+  stage: build
+  image: maven:3.8.1-jdk-17
+  script:
+    - mvn clean compile
+  only:
+    - main
+
+build-dev:
+  stage: build
+  image: maven:3.8.1-jdk-17
+  script:
+    - mvn clean compile
+  only:
+    - dev
+```
+
+### Explanation
+
+* The pipeline contains a single stage named **build**.
+* Two separate jobs are defined within the same stage:
+
+  * **build-main**
+  * **build-dev**
+* The `only` keyword determines which job should run based on the branch that triggered the pipeline.
+* If a commit is pushed to the **main** branch, only the **build-main** job is executed.
+* If a commit is pushed to the **dev** branch, only the **build-dev** job is executed.
+* Both jobs use the **Maven 3.8.1 with JDK 17** Docker image and execute the command `mvn clean compile` to compile the application.
+
+### Benefits
+
+* Enables branch-specific CI/CD workflows.
+* Prevents unnecessary job execution on unrelated branches.
+* Optimizes CI/CD resource utilization by running builds only when required.
+* Supports isolated development and production workflows, making it easier to validate changes before they are merged into the main branch.
+
+With this configuration, GitLab automatically evaluates the branch that triggered the pipeline and executes only the matching job. For example, a commit to the **main** branch runs the **build-main** job, while a commit to the **dev** branch runs the **build-dev** job. This ensures efficient pipeline execution, better code isolation, and reduced compute costs by avoiding unnecessary builds on branches that are not relevant to the current change.
+

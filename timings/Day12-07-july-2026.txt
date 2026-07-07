@@ -1,0 +1,45 @@
+# Day 12: Kubernetes Session – Day 2
+
+Today, I continued learning Kubernetes by covering additional core concepts and getting an introduction to **Amazon Elastic Kubernetes Service (EKS)**.
+
+### Topics Covered
+
+* **Amazon EKS (Elastic Kubernetes Service)**
+
+  * Learned that Amazon EKS is AWS's managed Kubernetes service.
+  * It simplifies the deployment, management, and scaling of Kubernetes clusters by managing the Kubernetes control plane.
+
+* **Core Kubernetes Resources**
+
+  * **Pods** – The smallest deployable unit in Kubernetes that contains one or more containers.
+  * **Containers** – The application runtime environment packaged with its dependencies.
+  * **Deployments** – Used to manage stateless applications, perform rolling updates, and maintain the desired number of pod replicas.
+  * **Multi-Container Pods** – Learned how multiple containers can run within the same pod and share networking and storage.
+
+* **Workload Controllers**
+
+  * **Deployments** – Best suited for stateless applications with features such as rolling updates and rollback support.
+  * **StatefulSets (STS)** – Used for stateful applications that require stable network identities and persistent storage.
+  * **DaemonSets** – Ensure that a copy of a pod runs on every node (or selected nodes) in the cluster, commonly used for monitoring agents and log collectors.
+
+* **Scheduling**
+
+  * Gained an introduction to how the Kubernetes scheduler assigns pods to worker nodes based on resource availability and scheduling constraints.
+
+* **YAML Manifests**
+
+  * Learned the structure of Kubernetes YAML files and how to define Kubernetes resources using declarative configuration.
+
+* **Applying Kubernetes Resources**
+
+  * Learned how to deploy Kubernetes resources using:
+
+    ```bash
+    kubectl apply -f <filename>.yaml
+    ```
+  * Understood how Kubernetes creates or updates resources based on the YAML definition.
+
+### Plan for Tomorrow
+
+Tomorrow's session will focus on **deploying applications on a real Amazon EKS cluster**, including creating Kubernetes resources and performing hands-on deployments in AWS.
+
