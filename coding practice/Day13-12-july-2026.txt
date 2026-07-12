@@ -1,0 +1,95 @@
+MODULE 1: ANSIBLE
+- name: Create a configuration file on all servers
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Create pathnex.conf
+      copy:
+        dest: /etc/pathnex.conf
+        content: |
+          Welcome to Daily DevOps Tasks
+          Today I am learning to create a multi-line configuration file using Ansible.
+MODULE 2: TERRAFORM
+resource "aws_db_instance" "NavinRDS" {
+  allocated_storage   = 20
+  engine              = "mysql"
+  instance_class      = "db.t3.micro"
+  db_name             = "navin_db"
+  username            = "admin"
+  password            = "password123"
+  skip_final_snapshot = true
+}
+MODULE 3: KUBERNETES
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: navin-rolling
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: navin
+  template:
+    metadata:
+      labels:
+        app: navin
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+MODULE 4: SHELL SCRIPT
+#!/bin/bash
+
+SOURCE="/var/log"
+DEST="/backup/navin-$(date +%F).tar.gz"
+
+tar -czf "$DEST" "$SOURCE"
+
+echo "Backup created successfully: $DEST"
+MODULE 5: JENKINS
+pipeline {
+    agent any
+
+    environment {
+        NAME = "Navin Voonna"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+    }
+}
+MODULE 6: GITLAB CI/CD
+stages:
+  - build
+
+build-main:
+  stage: build
+  image: maven:3.8.1-jdk-17
+  script:
+    - mvn clean compile
+  only:
+    - main
+
+build-dev:
+  stage: build
+  image: maven:3.8.1-jdk-17
+  script:
+    - mvn clean compile
+  only:
+    - dev

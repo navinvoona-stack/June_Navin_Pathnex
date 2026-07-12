@@ -1,0 +1,176 @@
+# Day 13: AWS Fundamentals
+
+Today, I learned the core AWS concepts that form the foundation of cloud computing and infrastructure management.
+
+## 1. Infrastructure Models
+
+I learned the difference between **On-Premises** and **Cloud Infrastructure**.
+
+* **On-Premises** infrastructure requires organizations to purchase, maintain, and manage their own servers, networking devices, and storage.
+* **Cloud Infrastructure** provides on-demand resources that can be provisioned within minutes, offering high availability, scalability, and reduced operational overhead.
+* I also understood how cloud environments use **Private IP addresses** for internal communication and **VPN tunnels** to securely connect on-premises data centers with cloud networks.
+
+---
+
+## 2. Cloud Service Models
+
+I studied the three major cloud service models:
+
+* **IaaS (Infrastructure as a Service):** Provides virtual machines, storage, networking, and other infrastructure components. Example: Amazon EC2.
+* **PaaS (Platform as a Service):** Provides a managed platform for developing and deploying applications without managing the underlying infrastructure. Example: AWS Elastic Beanstalk.
+* **SaaS (Software as a Service):** Delivers fully managed software applications over the internet. Example: Gmail and Microsoft 365.
+
+I also learned the practical use cases for each model and when to choose one over another.
+
+---
+
+## 3. Amazon EC2
+
+I learned how to provision virtual servers using **Amazon EC2**.
+
+Key topics covered:
+
+* Launching EC2 instances.
+* Creating reusable **Amazon Machine Images (AMIs)**, also known as Golden Images.
+* Understanding different EC2 pricing models:
+
+  * **On-Demand Instances** for short-term workloads.
+  * **Reserved Instances** for predictable long-term usage with cost savings.
+  * **Spot Instances** for fault-tolerant workloads at significantly lower prices.
+
+---
+
+## 4. AWS IAM (Identity and Access Management)
+
+I learned how AWS secures cloud resources using IAM.
+
+Topics covered:
+
+* IAM Users
+* IAM Groups
+* IAM Policies
+* Role-based access control
+* Granting least-privilege permissions to users and services
+
+This helps secure AWS resources by ensuring users have only the permissions they need.
+
+---
+
+## 5. Amazon VPC (Virtual Private Cloud)
+
+I learned how to design secure and isolated networks within AWS.
+
+Topics covered:
+
+* CIDR Blocks
+* Public and Private Subnets
+* Internet Gateway
+* NAT Gateway
+* Route Tables
+
+I understood how public subnets allow internet access, while private subnets securely host backend resources such as application servers and databases.
+
+---
+
+## 6. Amazon S3
+
+I learned about AWS object storage using Amazon S3.
+
+Topics covered:
+
+* Creating S3 Buckets
+* Storing unlimited objects
+* Storage Classes:
+
+  * Standard
+  * Intelligent-Tiering
+  * Glacier/Archive
+* Lifecycle Policies for automatically moving data to lower-cost storage classes
+
+This helps optimize storage costs while maintaining data durability and availability.
+
+---
+
+## 7. Advanced AWS Networking
+
+Today's session also covered advanced networking concepts.
+
+* **VPC Peering** for connecting two VPCs directly.
+* **Transit Gateway** for centrally connecting multiple VPCs and on-premises networks.
+* Real-world scenarios helped me understand when each solution should be used.
+
+---
+
+## 8. Amazon Route 53
+
+I learned about AWS DNS service, Route 53.
+
+Topics covered:
+
+* Common DNS Record Types:
+
+  * A Record
+  * CNAME
+  * Alias Record
+* Routing Policies:
+
+  * Simple Routing
+  * Weighted Routing
+  * Latency-Based Routing
+  * Failover Routing
+  * Geolocation Routing
+
+These routing policies help improve application availability and user experience.
+
+---
+
+## 9. AWS Lambda
+
+I learned the basics of AWS Lambda, AWS's serverless compute service.
+
+Topics covered:
+
+* Event-driven execution
+* Automatic scaling
+* Lambda timeout limits
+* Common use cases such as automation, API backends, and scheduled tasks
+
+---
+
+## 10. Shared Responsibility Model
+
+I learned how security responsibilities are shared between AWS and the customer.
+
+* AWS is responsible for the **security of the cloud**, including physical infrastructure and managed services.
+* Customers are responsible for **security in the cloud**, including IAM permissions, operating systems, applications, and data.
+
+---
+
+## 11. CVEs (Common Vulnerabilities and Exposures)
+
+I learned what CVEs are and why they are important.
+
+* CVEs are publicly disclosed security vulnerabilities.
+* Keeping operating systems, applications, and packages updated helps reduce security risks.
+
+---
+
+## 12. Amazon EventBridge
+
+I learned how Amazon EventBridge can automate workflows using event-driven architecture.
+
+It can trigger AWS services automatically based on events such as:
+
+* EC2 state changes
+* S3 object uploads
+* Scheduled jobs
+* CloudWatch events
+
+This enables powerful automation without manual intervention.
+
+---
+
+### Summary
+
+Today's AWS session provided a strong foundation in cloud infrastructure, networking, security, compute, storage, automation, and serverless services. The real-world examples made concepts like VPC Peering vs. Transit Gateway, Route 53 routing policies, AWS Lambda, the Shared Responsibility Model, CVEs, and EventBridge much easier to understand. Overall, it was an informative session that strengthened my understanding of AWS fundamentals and prepared me for more advanced cloud concepts.
+
