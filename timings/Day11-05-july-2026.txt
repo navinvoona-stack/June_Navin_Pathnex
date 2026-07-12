@@ -1,0 +1,84 @@
+# Day 11: Kubernetes Session 1
+
+Today was the first day of Kubernetes training, where we covered the fundamentals of Kubernetes architecture and its core components.
+
+## What is Kubernetes?
+
+Kubernetes (K8s) is an open-source container orchestration platform used to automate the deployment, scaling, and management of containerized applications.
+
+## Kubernetes Architecture
+
+A Kubernetes cluster is primarily divided into two main sections:
+
+### 1. Control Plane
+
+The Control Plane acts as the brain of the cluster. It manages and controls the overall state of the cluster, including scheduling, networking, and maintaining the desired state of applications.
+
+### 2. Data Plane
+
+The Data Plane consists of worker nodes where the actual application workloads run. It is responsible for executing containers and handling application traffic.
+
+## Kubernetes Components
+
+### 1. ETCD
+
+ETCD is the source of truth for the Kubernetes cluster. It is a distributed key-value store that maintains the entire cluster configuration and the current state of all Kubernetes resources.
+
+### 2. Kube Controller Manager
+
+The Kube Controller Manager runs various controllers and continuously ensures that the desired state of the cluster matches its actual state.
+
+### 3. Kube API Server
+
+The Kube API Server serves as the entry point to the Kubernetes cluster. All user commands, API requests, and communications between Kubernetes components pass through the API Server.
+
+### 4. Kube Proxy
+
+Kube Proxy manages cluster networking and service communication. It handles network routing and traffic forwarding between services and pods using iptables or IPVS rules.
+
+**Note:** DNS resolution within the cluster is handled by the **CoreDNS** component, not Kube Proxy.
+
+### 5. Kube Scheduler
+
+When a Pod specification is submitted, the Kube Scheduler evaluates resource requirements, node availability, and scheduling constraints to determine the most suitable worker node for the Pod.
+
+### 6. Kubelet
+
+Kubelet runs on every worker node and acts as the node agent. It communicates with the Control Plane, ensures that Pods are running as specified, monitors their health, and reports node and Pod status back to the cluster.
+
+### 7. Container Runtime
+
+Container runtimes such as **containerd** and **CRI-O** are responsible for pulling container images and running containers based on the Pod specifications provided by Kubernetes.
+
+---
+
+# Kubernetes Workload Resources
+
+## Deployment
+
+A Deployment is a Kubernetes resource used to manage, deploy, update, and scale stateless applications through Pods.
+
+## Pod
+
+A Pod is the smallest deployable unit in Kubernetes. It can contain one or more containers that share networking and storage resources.
+
+## StatefulSet
+
+A StatefulSet is used for deploying stateful applications.
+
+Key characteristics:
+
+* Each Pod receives a unique and dedicated Persistent Volume Claim (PVC).
+* Pods are assigned predictable names in sequential order (e.g., app-0, app-1, app-2).
+* During scale-down or deletion, Pods are terminated in reverse order (e.g., app-4, app-3, app-2, app-1).
+
+## DaemonSet
+
+A DaemonSet ensures that one Pod runs on every worker node in the cluster. It is commonly used for monitoring agents, log collectors, and security tools.
+
+---
+
+## Next Session
+
+Tomorrow's session will continue with Kubernetes concepts and focus on Kubernetes deployments on Amazon EKS (Elastic Kubernetes Service).
+
