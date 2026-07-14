@@ -1,0 +1,39 @@
+What is the primary difference between Docker and Kubernetes?
+Answer: Docker is used to build and run individual containers . Kubernetes (K8s) is a container orchestration tool that acts as the manager or supervisor . It automates the deployment, scaling, management, and self-healing of those containerized applications at scale .
+
+What is the difference between CMD and ENTRYPOINT in a Dockerfile?
+Answer: While both specify the command executed when a container starts, CMD arguments can be easily overridden from the command line, whereas ENTRYPOINT arguments cannot be easily overridden . Additionally, if you define multiple CMD or ENTRYPOINT instructions in a Dockerfile, only the last one will take effect; the previous ones are completely ignored .
+
+
+What are the main components of the Kubernetes Control Plane?
+API Server: The central gateway. Every component or user must communicate through the API Server; no part of the system makes a move without checking in here first.
+
+etcd: The cluster's master logbook/database that stores the configuration data and the state of the cluster.
+
+Scheduler: Decides which Worker Node is the best fit to launch a new Pod based on resource availability.
+
+Controller Manager: Ensures the actual state of the cluster matches the desired state (e.g., handling node failures or maintaining replicas).
+
+Cloud Controller Manager: Manages the interaction with underlying cloud providers for resources like load balancers or storage.
+
+ Worker Node Components
+What runs on a Kubernetes Worker Node?
+Kubelet: An agent running on each node that ensures containers are running inside the Pods as expected.
+
+Kube-Proxy: Manages network rules on the nodes to allow network communication to your Pods.
+
+Container Runtime: The software (like Docker or containerd) responsible for actually running the containers.
+
+Networking & Service Types
+What are the different Kubernetes Service types?
+ClusterIP: Exposes the service on a cluster-internal IP. It makes the service only reachable from within the cluster (default type).
+
+NodePort: Exposes the service on each Node's IP at a static port. It allows external traffic to reach the service by hitting <NodeIP>:<NodePort>.
+
+LoadBalancer: Exposes the service externally using a cloud provider's external load balancer.
+
+Key Kubernetes Features
+How does Kubernetes provide High Availability and Reliability?
+Auto-Scaling: Automatically scales up the number of running application instances when traffic gets heavy.
+
+Self-Healing: Continuously monitors the health of containers. If a container or node crashes, Kubernetes automatically spins up a replacement to maintain the desired state.
