@@ -1,0 +1,35 @@
+Q1: How do you control access and grant permissions to users or services inside an Amazon EKS cluster?
+
+Focus Area: Explaining AWS IAM Roles/Policies, service accounts, and how they map to Kubernetes Role-Based Access Control (RBAC).
+
+Q2: What components are managed by AWS versus what you are responsible for in a managed EKS environment?
+
+Focus Area: Control plane management (AWS) vs. worker node management, node groups, and cluster networking (User).
+
+Q3: What is the difference between a Deployment, a StatefulSet, and a DaemonSet? Give a real-world use case for each.
+
+Focus Area:
+
+Deployment: Stateless apps (e.g., microservices, web apps).
+
+StatefulSet: Applications requiring persistent state, unique network identifiers, and ordered deployment (e.g., databases like PostgreSQL, MongoDB).
+
+DaemonSet: Running a copy of a pod on every worker node in the cluster (e.g., log collectors like Fluentd, monitoring agents like Prometheus Node Exporter).
+
+Q4: How does a Blue-Green deployment differ from a Canary deployment, and how would you implement them in Kubernetes?
+
+Focus Area:
+
+Blue-Green: Maintaining two identical environments and switching traffic at the router/load balancer level for zero downtime.
+
+Canary: Gradually shifting a small percentage of user traffic to a new version to test stability before a full rollout.
+
+Q5: How do Rolling Updates work in Kubernetes, and how can you configure zero-downtime deployments using maxSurge and maxUnavailable?
+
+Q6: Explain the differences between ClusterIP, NodePort, and LoadBalancer service types.
+
+Q7: How does an Ingress Controller or AWS Load Balancer Controller manage traffic routing at Layer 7 compared to a standard LoadBalancer service?
+
+Q8: How does the Metrics Server work, and how does Horizontal Pod Autoscaling (HPA) use its data to scale pods dynamically?
+
+Q9: What is the difference between HPA (scaling pods) and Cluster Autoscaler / Karpenter (scaling nodes)?
