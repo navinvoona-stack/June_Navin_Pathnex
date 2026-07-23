@@ -1,0 +1,84 @@
+Ansible — Creating Multiple Users Using Loops
+- name: Create multiple Navin Pathnex users
+  hosts: all
+  become: yes
+
+  vars:
+    users:
+      - dev1
+      - dev2
+      - dev3
+
+  tasks:
+    - name: Create users
+      user:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ users }}"
+-----------------------------------------------------------------
+Terraform — Creating an Application Load Balancer
+
+resource "aws_lb" "NavinPathnexALB"
+ {
+     name = "navin-pathnex-alb"
+     load_balancer_type = "application"
+     subnets = [aws_subnet.NavinPathnexSubnet.id]
+     tags =
+           { Name = "Navin-Pathnex-ALB" }
+ }
+
+-----------------------------------------------------------------
+Kubernetes — Creating a Namespace and Deployment
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: navin-pathnex-namespace
+
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+         name: navin-pathnex-deploy 
+         namespace: navin-pathnex-namespace
+spec:
+      replicas: 2
+      selector:
+         matchLabels:
+            app: navin-pathnex
+         template:
+            metadata:
+               labels: 
+                  app: navin-pathnex
+            spec: 
+                     containers:
+                    - name: app
+                        image: nginx
+---------------------------------------------------------------
+Jenkins — Simulating Deployment Across Environments
+
+pipeline
+ {
+     agent any parameters
+     {
+       choice
+       (
+         name: 'ENVIRONMENT',
+         choices: ['dev', 'staging', 'prod'],
+         description: 'Select the deployment environment'
+        )
+     } 
+     environment 
+     {
+       INSTITUTE_NAME = "Navin Pathnex"
+     }
+     stages
+     {
+       stage('Deploy') 
+       {
+        steps
+        {
+        sh 'echo "Deploying $INSTITUTE_NAME application to $ENVIRONMENT"'
+        }
+       }
+     }
+  }

@@ -1,0 +1,21 @@
+Ansible — Creating Multiple Users Using Loops
+I used an Ansible loop to create multiple users dynamically. Instead of writing separate tasks for each user, a single task can iterate over a list of usernames.
+loop helps avoid repetitive tasks.
+item represents the current value in the list.
+This approach makes Ansible playbooks cleaner and easier to mai
+
+I practiced creating an AWS Application Load Balancer using Terraform.
+An ALB operates at the Application Layer (Layer 7).
+It can route HTTP/HTTPS traffic.
+Terraform helps provision AWS infrastructure using Infrastructure as Code.
+
+Kubernetes — Creating a Namespace and Deployment
+I created a dedicated Kubernetes namespace and deployed an NGINX application inside it.
+Namespaces provide logical isolation within a Kubernetes cluster.
+The Deployment maintains the desired number of replicas.
+The selector connects the Deployment with its Pods.
+Two NGINX replicas are created using replicas: 2
+
+Jenkins — Simulating Deployment Across Environments
+I created a Jenkins Declarative Pipeline to simulate application deployment across different environments such as Development, Staging, and Production
+
